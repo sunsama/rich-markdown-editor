@@ -1,5 +1,5 @@
 import * as React from "react";
-import { capitalize } from "lodash";
+import { capitalize, flatten } from "lodash";
 import { Portal } from "react-portal";
 import { EditorView } from "prosemirror-view";
 import { findParentNode } from "prosemirror-utils";
@@ -10,7 +10,7 @@ import Input from "./Input";
 import VisuallyHidden from "./VisuallyHidden";
 import getDataTransferFiles from "../lib/getDataTransferFiles";
 import insertFiles from "../commands/insertFiles";
-import getMenuItems from "../menus/block";
+import getMenuItems, { extensionBlockNames } from "../menus/block";
 
 const SSR = typeof window === "undefined";
 
@@ -19,6 +19,7 @@ type Props = {
   commands: Record<string, any>;
   view: EditorView;
   search: string;
+  disabledExtensions?: string[];
   uploadImage?: (file: File) => Promise<string>;
   onImageUploadStart?: () => void;
   onImageUploadStop?: () => void;
@@ -341,7 +342,7 @@ class BlockMenu extends React.Component<Props, State> {
   }
 
   get filtered() {
-    const { embeds, search = "" } = this.props;
+    const { embeds, search = "", disabledExtensions = [] } = this.props;
     let items: (EmbedDescriptor | MenuItem)[] = getMenuItems();
     const embedItems: EmbedDescriptor[] = [];
 
@@ -361,13 +362,17 @@ class BlockMenu extends React.Component<Props, State> {
       items = items.concat(embedItems);
     }
 
+    const disabledBlocks = flatten(disabledExtensions.map(extension => extensionBlockNames[extension] || [extension]))
+
     const filtered = items.filter(item => {
       if (item.name === "separator") return true;
 
       const n = search.toLowerCase();
       return (
-        (item.title || "").toLowerCase().includes(n) ||
-        (item.keywords || "").toLowerCase().includes(n)
+        !disabledBlocks.includes(item.name || '') && (
+          (item.title || "").toLowerCase().includes(n) ||
+          (item.keywords || "").toLowerCase().includes(n)
+        )
       );
     });
 

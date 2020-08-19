@@ -113,6 +113,9 @@ class Example extends React.Component {
           readOnlyWriteCheckboxes
           value={this.state.value}
           template={this.state.template}
+          disabledExtensions={[
+              'horizontal_rule'
+          ]}
           defaultValue={defaultValue}
           scrollTo={window.location.hash}
           handleDOMEvents={{
