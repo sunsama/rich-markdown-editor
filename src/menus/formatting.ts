@@ -10,6 +10,7 @@ import {
   InputIcon,
   HighlightIcon,
 } from "outline-icons";
+import { flatten } from 'lodash';
 import { isInTable } from "prosemirror-tables";
 import { EditorState } from "prosemirror-state";
 import isInList from "../queries/isInList";
@@ -17,14 +18,21 @@ import isMarkActive from "../queries/isMarkActive";
 import isNodeActive from "../queries/isNodeActive";
 import { MenuItem } from "../types";
 
+// TODO Fill in the rest
+const extensionFormattingNames = {
+    'highlight': ['mark'],
+}
+
 export default function formattingMenuItems(
   state: EditorState,
-  isTemplate: boolean
+  isTemplate: boolean,
+  disabledExtensions: string[] = [],
 ): MenuItem[] {
   const { schema } = state;
   const isTable = isInTable(state);
   const isList = isInList(state);
   const allowBlocks = !isTable && !isList;
+  const disabledFormattingItems = flatten(disabledExtensions.map(extension => extensionFormattingNames[extension] || [extension]));
 
   return [
     {
@@ -107,5 +115,13 @@ export default function formattingMenuItems(
       active: isMarkActive(schema.marks.link),
       attrs: { href: "" },
     },
-  ];
+  ].filter(({ name }) => !disabledFormattingItems.includes(name))
+   .filter(({ name }, idx, formattingItems) => {
+       if (name === 'separator') {
+           if (idx === 0 || idx === formattingItems.length - 1 || formattingItems[idx + 1].name === 'separator') {
+               return false
+           }
+       }
+       return true
+   });
 }

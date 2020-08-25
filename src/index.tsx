@@ -582,6 +582,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
                   view={this.view}
                   commands={this.commands}
                   isTemplate={this.props.template === true}
+                  disabledExtensions={this.props.disabledExtensions}
                   onSearchLink={this.props.onSearchLink}
                   onClickLink={this.props.onClickLink}
                   onCreateLink={this.props.onCreateLink}

@@ -114,6 +114,7 @@ class Example extends React.Component {
           value={this.state.value}
           template={this.state.template}
           disabledExtensions={[
+              'highlight',
               'horizontal_rule'
           ]}
           defaultValue={defaultValue}
