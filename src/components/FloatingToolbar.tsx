@@ -124,6 +124,7 @@ class FloatingToolbar extends React.Component<Props> {
     return (
       <Portal>
         <Wrapper
+          id="toolbar-container"
           active={active && this.state.visible}
           ref={this.menuRef}
           offset={this.state.offset}
