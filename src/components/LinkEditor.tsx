@@ -254,7 +254,7 @@ class LinkEditor extends React.Component<Props, State> {
     const showResults = !!value && (showCreateLink || results.length > 0);
 
     return (
-      <Wrapper>
+      <Wrapper id="link-editor-container">
         <Input
           value={value}
           placeholder={
