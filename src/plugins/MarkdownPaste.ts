@@ -1,4 +1,5 @@
 import { Plugin } from "prosemirror-state";
+import * as model from "prosemirror-model";
 import { toggleMark } from "prosemirror-commands";
 import Extension from "../lib/Extension";
 import isUrl from "../lib/isUrl";
@@ -20,6 +21,7 @@ export default class MarkdownPaste extends Extension {
 
             const text = event.clipboardData.getData("text/plain");
             const html = event.clipboardData.getData("text/html");
+            const isFromNotion = event.clipboardData.types.includes("text/_notion-blocks-v2-production");
             const { state, dispatch } = view;
 
             // first check if the clipboard contents can be parsed as a url
@@ -53,7 +55,7 @@ export default class MarkdownPaste extends Extension {
 
             // otherwise, if we have html then fallback to the default HTML
             // parser behavior that comes with Prosemirror.
-            if (text.length === 0 || html) return false;
+            if (text.length === 0 || (html && !isFromNotion)) return false;
 
             event.preventDefault();
 
