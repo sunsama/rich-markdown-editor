@@ -52,6 +52,7 @@ class Example extends React.Component {
   state = {
     readOnly: false,
     template: false,
+    disableExtensions: false,
     dark: localStorage.getItem("dark") === "enabled",
     value: undefined,
   };
@@ -68,6 +69,11 @@ class Example extends React.Component {
     const dark = !this.state.dark;
     this.setState({ dark });
     localStorage.setItem("dark", dark ? "enabled" : "disabled");
+  };
+
+  handleToggleDisabledExtensions = () => {
+    const disableExtensions = !this.state.disableExtensions;
+    this.setState({ disableExtensions });
   };
 
   handleUpdateValue = () => {
@@ -101,6 +107,9 @@ class Example extends React.Component {
           <button type="button" onClick={this.handleToggleTemplate}>
             {this.state.template ? "Switch to Document" : "Switch to Template"}
           </button>{" "}
+          <button type="button" onClick={this.handleToggleDisabledExtensions}>
+            {this.state.disableExtensions ? "Enable dividers and highlights" : "Disable dividers and highlights"}
+          </button>{" "}
           <button type="button" onClick={this.handleUpdateValue}>
             Update value
           </button>
@@ -113,10 +122,10 @@ class Example extends React.Component {
           readOnlyWriteCheckboxes
           value={this.state.value}
           template={this.state.template}
-          disabledExtensions={[
+          disabledExtensions={this.state.disableExtensions ? [
               'highlight',
               'horizontal_rule'
-          ]}
+          ] : []}
           defaultValue={defaultValue}
           scrollTo={window.location.hash}
           handleDOMEvents={{
