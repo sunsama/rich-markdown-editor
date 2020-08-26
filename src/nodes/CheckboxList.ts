@@ -15,6 +15,7 @@ export default class CheckboxList extends Node {
       parseDOM: [
         {
           tag: `[class="${this.name}"]`,
+          priority: 100,
         },
       ],
     };
