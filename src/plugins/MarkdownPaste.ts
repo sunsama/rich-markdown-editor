@@ -1,5 +1,4 @@
 import { Plugin } from "prosemirror-state";
-import * as model from "prosemirror-model";
 import { toggleMark } from "prosemirror-commands";
 import Extension from "../lib/Extension";
 import isUrl from "../lib/isUrl";
