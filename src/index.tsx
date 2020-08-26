@@ -5,7 +5,7 @@ import { dropCursor } from "prosemirror-dropcursor";
 import { gapCursor } from "prosemirror-gapcursor";
 import { MarkdownParser, MarkdownSerializer } from "prosemirror-markdown";
 import { DecorationSet, EditorView } from "prosemirror-view";
-import { Schema, NodeSpec, MarkSpec, Slice } from "prosemirror-model";
+import { Schema, NodeSpec, MarkSpec, Slice, DOMParser, DOMSerializer } from "prosemirror-model";
 import { inputRules, InputRule } from "prosemirror-inputrules";
 import { keymap } from "prosemirror-keymap";
 import { baseKeymap } from "prosemirror-commands";
@@ -89,6 +89,8 @@ export type Props = {
     [name: string]: (view: EditorView, event: Event) => boolean;
   };
   decorations?: (state: EditorState) => DecorationSet,
+  clipboardParser?: DOMParser,
+  clipboardSerializer?: DOMSerializer,
   disabledExtensions?: string[],
   uploadImage?: (file: File) => Promise<string>;
   onSave?: ({ done: boolean }) => void;
@@ -405,6 +407,9 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
       nodeViews: this.nodeViews,
       handleDOMEvents: this.props.handleDOMEvents,
       decorations: this.props.decorations,
+      clipboardSerializer: this.props.clipboardSerializer,
+      clipboardTextSerializer: slice => this.serializer.serialize(this.schema.node('doc', undefined, slice.content)),
+      clipboardParser: this.props.clipboardParser,
       dispatchTransaction: transaction => {
         const { state, transactions } = this.view.state.applyTransaction(
           transaction
