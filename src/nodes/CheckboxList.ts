@@ -17,6 +17,11 @@ export default class CheckboxList extends Node {
           tag: `[class="${this.name}"]`,
           priority: 100,
         },
+        {
+            // parses Github styled checkbox-list
+            tag: `[class="contains-task-list"]`,
+            priority: 100,
+        },
       ],
     };
   }

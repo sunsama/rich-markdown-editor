@@ -29,6 +29,15 @@ export default class CheckboxItem extends Node {
               : false,
           }),
         },
+        {
+            // parses Github styled checkbox-item
+            tag: `li[class="task-list-item enabled"]`,
+            getAttrs: dom => ({
+                checked: dom.getElementsByTagName("input")[0].checked
+                    ? true
+                    : false,
+            }),
+        },
       ],
       toDOM: node => {
         const input = document.createElement("input");
