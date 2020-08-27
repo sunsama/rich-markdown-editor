@@ -57,7 +57,11 @@ export default class CodeFence extends Node {
       code: true,
       defining: true,
       draggable: false,
-      parseDOM: [{ tag: "pre", preserveWhitespace: "full" }],
+      parseDOM: [{
+          tag: "pre",
+          preserveWhitespace: "full",
+          getAttrs: (dom: HTMLElement) => ({ 'language': dom.hasAttribute("language") ? dom.getAttribute("language") : "javascript" })
+      }],
       toDOM: node => {
         const button = document.createElement("button");
         button.innerText = "Copy";
@@ -80,7 +84,7 @@ export default class CodeFence extends Node {
           "div",
           { class: "code-block" },
           ["div", { contentEditable: false }, select, button],
-          ["pre", ["code", { spellCheck: false }, 0]],
+          ["pre", { 'language': select.value }, ["code", { spellCheck: false }, 0]],
         ];
       },
     };
