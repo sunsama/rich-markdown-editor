@@ -140,6 +140,7 @@ export default function blockMenuItems(): MenuItem[] {
 
 // TODO Fill in any more that we need
 export const extensionBlockNames = {
+    notice: ['container_notice'],
     horizontal_rule: ['hr']
 }
 
