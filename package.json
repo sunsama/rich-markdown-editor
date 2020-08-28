@@ -1,7 +1,7 @@
 {
-  "name": "rich-markdown-editor",
+  "name": "@sunsama/rich-markdown-editor",
   "description": "A rich text editor with Markdown shortcuts",
-  "version": "10.6.1",
+  "version": "10.6.2",
   "main": "dist/lib/index.js",
   "typings": "dist/@types/index.d.ts",
   "license": "BSD-3-Clause",
@@ -83,7 +83,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/outline/rich-markdown-editor.git"
+    "url": "git+https://github.com/sunsama/rich-markdown-editor.git"
   },
   "keywords": [
     "editor",
@@ -95,5 +95,5 @@
   "bugs": {
     "url": "https://github.com/outline/rich-markdown-editor/issues"
   },
-  "homepage": "https://github.com/outline/rich-markdown-editor#readme"
+  "homepage": "https://github.com/sunsama/rich-markdown-editor#readme"
 }
