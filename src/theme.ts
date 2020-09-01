@@ -67,6 +67,7 @@ export const light = {
   cursor: colors.black,
   divider: colors.greyMid,
 
+  toolbarBorder: `1px solid ${colors.lightBlack}`,
   toolbarBackground: colors.lightBlack,
   toolbarInput: colors.white10,
   toolbarItem: colors.white,
@@ -91,6 +92,7 @@ export const dark = {
   divider: "#4E5C6E",
   placeholder: "#52657A",
 
+  toolbarBorder: `1px solid ${colors.greyLight}`,
   toolbarBackground: colors.white,
   toolbarInput: colors.black10,
   toolbarItem: colors.lightBlack,
