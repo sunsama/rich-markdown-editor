@@ -35,6 +35,7 @@ import CodeFence from "./nodes/CodeFence";
 import CheckboxList from "./nodes/CheckboxList";
 import CheckboxItem from "./nodes/CheckboxItem";
 import Embed from "./nodes/Embed";
+import EmptyLine from "./nodes/EmptyLine";
 import Heading from "./nodes/Heading";
 import HorizontalRule from "./nodes/HorizontalRule";
 import Image from "./nodes/Image";
@@ -223,6 +224,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
       [
         new Doc(),
         new Text(),
+        new EmptyLine(),
         new Paragraph(),
         new Blockquote(),
         new BulletList(),
