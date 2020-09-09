@@ -69,6 +69,7 @@ import MarkdownPaste from "./plugins/MarkdownPaste";
 export { schema, parser, serializer } from "./server";
 
 export { default as Extension } from "./lib/Extension";
+export { default as Node } from "./nodes/Node";
 
 export const theme = lightTheme;
 
