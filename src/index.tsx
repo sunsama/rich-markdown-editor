@@ -78,6 +78,7 @@ export type Props = {
   defaultValue: string;
   placeholder: string;
   extensions: Extension[];
+  priorityExtensions: Extension[];
   autoFocus?: boolean;
   readOnly?: boolean;
   readOnlyWriteCheckboxes?: boolean;
@@ -138,6 +139,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
     disabledExtensions: [],
     embeds: [],
     extensions: [],
+    priorityExtensions: [],
     tooltip: Tooltip,
   };
 
@@ -222,6 +224,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
     // adding nodes here? Update schema.ts for serialization on the server
     return new ExtensionManager(
       [
+        ...this.props.priorityExtensions,
         new Doc(),
         new Text(),
           // new EmptyLine(),
