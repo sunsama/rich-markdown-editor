@@ -5,20 +5,23 @@ import { MarkdownSerializer } from "./markdown/serializer";
 import Editor from "../";
 import Extension from "./Extension";
 import makeRules from "./markdown/rules";
+import { PluginSimple } from "markdown-it";
 import Node from "../nodes/Node";
 import Mark from "../marks/Mark";
 
 export default class ExtensionManager {
   extensions: Extension[];
   embeds;
+  additionalMarkdownPlugins: PluginSimple[];
 
-  constructor(extensions: Extension[] = [], editor?: Editor) {
+  constructor(extensions: Extension[] = [], editor?: Editor, additionalMarkdownPlugins: PluginSimple[] = []) {
     if (editor) {
       extensions.forEach(extension => {
         extension.bindEditor(editor);
       });
     }
 
+    this.additionalMarkdownPlugins = additionalMarkdownPlugins;
     this.extensions = extensions;
     this.embeds = editor ? editor.props.embeds : undefined;
   }
@@ -76,7 +79,7 @@ export default class ExtensionManager {
 
     return new MarkdownParser(
       schema,
-      makeRules({ embeds: this.embeds }),
+      makeRules({ embeds: this.embeds, additionalMarkdownPlugins: this.additionalMarkdownPlugins }),
       tokens
     );
   }

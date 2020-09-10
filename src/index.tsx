@@ -1,5 +1,6 @@
 /* global window File Promise */
 import * as React from "react";
+import markdownit from "markdown-it";
 import { EditorState, Selection, Plugin } from "prosemirror-state";
 import { dropCursor } from "prosemirror-dropcursor";
 import { gapCursor } from "prosemirror-gapcursor";
@@ -80,6 +81,7 @@ export type Props = {
   placeholder: string;
   extensions: Extension[];
   priorityExtensions: Extension[];
+  additionalMarkdownPlugins?: markdownit.PluginSimple[];
   autoFocus?: boolean;
   readOnly?: boolean;
   readOnlyWriteCheckboxes?: boolean;
@@ -296,7 +298,8 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
         }),
         ...this.props.extensions,
       ],
-      this
+      this,
+      this.props.additionalMarkdownPlugins
     );
   }
 

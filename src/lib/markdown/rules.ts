@@ -7,8 +7,8 @@ import breakPlugin from "./breaks";
 import tablesPlugin from "./tables";
 import noticesPlugin from "./notices";
 
-export default function rules({ embeds }) {
-  return markdownit("default", {
+export default function rules({ embeds, additionalMarkdownPlugins }) {
+  const md = markdownit("default", {
     breaks: false,
     html: false,
   })
@@ -19,4 +19,10 @@ export default function rules({ embeds }) {
     .use(placeholderPlugin)
     .use(tablesPlugin)
     .use(noticesPlugin);
+
+    if (additionalMarkdownPlugins && additionalMarkdownPlugins.length) {
+        return additionalMarkdownPlugins.reduce((md, plugin) => md.use(plugin), md)
+    } else {
+        return md;
+    }
 }
