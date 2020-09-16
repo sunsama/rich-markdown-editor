@@ -1,5 +1,5 @@
 import * as React from "react";
-import { capitalize, flatten } from "lodash";
+import { capitalize, flatten, some, isString, isMatch } from "lodash";
 import { Portal } from "react-portal";
 import { EditorView } from "prosemirror-view";
 import { findParentNode } from "prosemirror-utils";
@@ -369,7 +369,7 @@ class BlockMenu extends React.Component<Props, State> {
 
       const n = search.toLowerCase();
       return (
-        !disabledBlocks.includes(item.name || '') && (
+          !some(disabledBlocks, disabledBlock => isString(disabledBlock) ? disabledBlock === item.name || '' : isMatch(item, disabledBlock)) && (
           (item.title || "").toLowerCase().includes(n) ||
           (item.keywords || "").toLowerCase().includes(n)
         )
