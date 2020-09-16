@@ -298,7 +298,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
             new Placeholder({
               placeholder: this.props.placeholder,
             }),
-        ].filter(extension => console.log(extension.name, disabledExtensions) as any || !disabledExtensions.includes(extension.name)),
+        ].filter(extension => !disabledExtensions.includes(extension.name)),
         ...this.props.extensions,
       ],
       this,
