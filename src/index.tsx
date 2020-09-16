@@ -224,78 +224,81 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
   }
 
   createExtensions() {
+    const { disabledExtensions = [] } = this.props;
     // adding nodes here? Update schema.ts for serialization on the server
     return new ExtensionManager(
       [
         ...this.props.priorityExtensions,
-        new Doc(),
-        new Text(),
-          // new EmptyLine(),
-        new Paragraph(),
-        new Blockquote(),
-        new BulletList(),
-        new CodeBlock({
-          initialReadOnly: this.props.readOnly,
-          onShowToast: this.props.onShowToast,
-        }),
-        new CodeFence({
-          initialReadOnly: this.props.readOnly,
-          onShowToast: this.props.onShowToast,
-        }),
-        new CheckboxList(),
-        new CheckboxItem(),
-        new Embed(),
-        new ListItem(),
-        new Notice(),
-        new Heading({
-          onShowToast: this.props.onShowToast,
-          offset: this.props.headingsOffset,
-        }),
-        new HorizontalRule(),
-        new Image({
-          uploadImage: this.props.uploadImage,
-          onImageUploadStart: this.props.onImageUploadStart,
-          onImageUploadStop: this.props.onImageUploadStop,
-          onShowToast: this.props.onShowToast,
-        }),
-        new Table(),
-        new TableCell({
-          onSelectTable: this.handleSelectTable,
-          onSelectRow: this.handleSelectRow,
-        }),
-        new TableHeadCell({
-          onSelectColumn: this.handleSelectColumn,
-        }),
-        new TableRow(),
-        new Bold(),
-        new Code(),
-        new Highlight(),
-        new Italic(),
-        new TemplatePlaceholder(),
-        new Link({
-          onKeyboardShortcut: this.handleOpenLinkMenu,
-          onClickLink: this.props.onClickLink,
-          onClickHashtag: this.props.onClickHashtag,
-          onHoverLink: this.props.onHoverLink,
-        }),
-        new Strikethrough(),
-        new OrderedList(),
-        new History(),
-        new SmartText(),
-        new TrailingNode(),
-        new MarkdownPaste(),
-        new Keys({
-          onSave: this.handleSave,
-          onSaveAndExit: this.handleSaveAndExit,
-          onCancel: this.props.onCancel,
-        }),
-        new BlockMenuTrigger({
-          onOpen: this.handleOpenBlockMenu,
-          onClose: this.handleCloseBlockMenu,
-        }),
-        new Placeholder({
-          placeholder: this.props.placeholder,
-        }),
+        ...[
+            new Doc(),
+            new Text(),
+              // new EmptyLine(),
+            new Paragraph(),
+            new Blockquote(),
+            new BulletList(),
+            new CodeBlock({
+              initialReadOnly: this.props.readOnly,
+              onShowToast: this.props.onShowToast,
+            }),
+            new CodeFence({
+              initialReadOnly: this.props.readOnly,
+              onShowToast: this.props.onShowToast,
+            }),
+            new CheckboxList(),
+            new CheckboxItem(),
+            new Embed(),
+            new ListItem(),
+            new Notice(),
+            new Heading({
+              onShowToast: this.props.onShowToast,
+              offset: this.props.headingsOffset,
+            }),
+            new HorizontalRule(),
+            new Image({
+              uploadImage: this.props.uploadImage,
+              onImageUploadStart: this.props.onImageUploadStart,
+              onImageUploadStop: this.props.onImageUploadStop,
+              onShowToast: this.props.onShowToast,
+            }),
+            new Table(),
+            new TableCell({
+              onSelectTable: this.handleSelectTable,
+              onSelectRow: this.handleSelectRow,
+            }),
+            new TableHeadCell({
+              onSelectColumn: this.handleSelectColumn,
+            }),
+            new TableRow(),
+            new Bold(),
+            new Code(),
+            new Highlight(),
+            new Italic(),
+            new TemplatePlaceholder(),
+            new Link({
+              onKeyboardShortcut: this.handleOpenLinkMenu,
+              onClickLink: this.props.onClickLink,
+              onClickHashtag: this.props.onClickHashtag,
+              onHoverLink: this.props.onHoverLink,
+            }),
+            new Strikethrough(),
+            new OrderedList(),
+            new History(),
+            new SmartText(),
+            new TrailingNode(),
+            new MarkdownPaste(),
+            new Keys({
+              onSave: this.handleSave,
+              onSaveAndExit: this.handleSaveAndExit,
+              onCancel: this.props.onCancel,
+            }),
+            new BlockMenuTrigger({
+              onOpen: this.handleOpenBlockMenu,
+              onClose: this.handleCloseBlockMenu,
+            }),
+            new Placeholder({
+              placeholder: this.props.placeholder,
+            }),
+        ].filter(extension => console.log(extension.name, disabledExtensions) as any || !disabledExtensions.includes(extension.name)),
         ...this.props.extensions,
       ],
       this,
@@ -571,7 +574,10 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
       tooltip,
       className,
       onKeyDown,
+      disabledExtensions = [],
     } = this.props;
+
+    const isBlockMenuDisabled = disabledExtensions.includes('blockmenu');
     const theme = this.props.theme || (dark ? darkTheme : lightTheme);
 
     return (
@@ -612,20 +618,22 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
                   onClose={this.handleCloseLinkMenu}
                   tooltip={tooltip}
                 />
-                <BlockMenu
-                  view={this.view}
-                  commands={this.commands}
-                  isActive={this.state.blockMenuOpen}
-                  search={this.state.blockMenuSearch}
-                  onClose={this.handleCloseBlockMenu}
-                  disabledExtensions={this.props.disabledExtensions}
-                  uploadImage={this.props.uploadImage}
-                  onLinkToolbarOpen={this.handleOpenLinkMenu}
-                  onImageUploadStart={this.props.onImageUploadStart}
-                  onImageUploadStop={this.props.onImageUploadStop}
-                  onShowToast={this.props.onShowToast}
-                  embeds={this.props.embeds}
-                />
+                {isBlockMenuDisabled ? null : (
+                  <BlockMenu
+                    view={this.view}
+                    commands={this.commands}
+                    isActive={this.state.blockMenuOpen}
+                    search={this.state.blockMenuSearch}
+                    onClose={this.handleCloseBlockMenu}
+                    disabledExtensions={this.props.disabledExtensions}
+                    uploadImage={this.props.uploadImage}
+                    onLinkToolbarOpen={this.handleOpenLinkMenu}
+                    onImageUploadStart={this.props.onImageUploadStart}
+                    onImageUploadStop={this.props.onImageUploadStop}
+                    onShowToast={this.props.onShowToast}
+                    embeds={this.props.embeds}
+                  />
+                )}
               </React.Fragment>
             )}
           </React.Fragment>
