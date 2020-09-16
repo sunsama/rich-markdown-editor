@@ -398,7 +398,10 @@ class BlockMenu extends React.Component<Props, State> {
   }
 
   render() {
-    const { isActive } = this.props;
+    const { isActive, disabledExtensions = [] } = this.props;
+    if (disabledExtensions.includes('blockmenu')) {
+      return null;
+    }
     const items = this.filtered;
     const { insertItem, ...positioning } = this.state;
 
