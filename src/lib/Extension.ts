@@ -47,4 +47,6 @@ export default class Extension {
   get defaultOptions() {
     return {};
   }
+
+  handleInitialization() {}
 }

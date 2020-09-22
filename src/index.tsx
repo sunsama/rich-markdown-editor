@@ -221,6 +221,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
     this.nodeViews = this.createNodeViews();
     this.view = this.createView();
     this.commands = this.createCommands();
+    this.triggerPostinitializationHooks();
   }
 
   createExtensions() {
@@ -467,6 +468,13 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
   value = (): string => {
     return this.serializer.serialize(this.view.state.doc);
   };
+
+  triggerPostinitializationHooks() {
+    return this.extensions.extensions
+      .forEach((extension: ReactNode) => {
+          extension.handleInitialization();
+      });
+  }
 
   handleChange = () => {
     if (!this.props.onChange) return;
