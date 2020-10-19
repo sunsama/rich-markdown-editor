@@ -1,5 +1,6 @@
 /* global window File Promise */
 import * as React from "react";
+import { isUndefined } from 'lodash';
 import markdownit from "markdown-it";
 import { EditorState, Selection, Plugin } from "prosemirror-state";
 import { dropCursor } from "prosemirror-dropcursor";
@@ -378,7 +379,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
   }
 
   createState(value?: string) {
-    const doc = this.createDocument(value || this.props.defaultValue);
+    const doc = this.createDocument(isUndefined(value) ? this.props.defaultValue : value);
 
     return EditorState.create({
       schema: this.schema,
