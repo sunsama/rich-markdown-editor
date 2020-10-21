@@ -149,7 +149,12 @@ export class MarkdownSerializerState {
   // Render the given node as a block.
   render(node, parent, index) {
     if (typeof parent === "number") throw new Error("!");
-    this.nodes[node.type.name](this, node, parent, index);
+    const render = this.nodes[node.type.name];
+    if (!render) {
+        throw new Error(`Cannot render unknown node (${node.type.name})`);
+    } else {
+        render(this, node, parent, index);
+    }
   }
 
   // :: (Node)

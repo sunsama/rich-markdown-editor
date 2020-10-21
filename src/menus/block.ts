@@ -92,7 +92,7 @@ export default function blockMenuItems(): MenuItem[] {
       keywords: "script",
     },
     {
-      name: "hr",
+      name: "horizontal_rule",
       title: "Divider",
       icon: HorizontalRuleIcon,
       shortcut: `${mod} _`,
@@ -144,6 +144,5 @@ export const extensionBlockNames = {
     h2: [{ name: 'heading', attrs: { level: 2 }}],
     h3: [{ name: 'heading', attrs: { level: 3 }}],
     notice: ['container_notice'],
-    horizontal_rule: ['hr']
 }
 

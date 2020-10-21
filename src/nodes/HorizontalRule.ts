@@ -3,7 +3,11 @@ import Node from "./Node";
 
 export default class HorizontalRule extends Node {
   get name() {
-    return "hr";
+    return "horizontal_rule";
+  }
+
+  get markdownToken() {
+      return "hr";
   }
 
   get schema() {
@@ -52,6 +56,6 @@ export default class HorizontalRule extends Node {
   }
 
   parseMarkdown() {
-    return { node: "hr" };
+    return { node: "horizontal_rule" };
   }
 }
