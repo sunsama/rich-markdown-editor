@@ -14,11 +14,10 @@ export default class Keys extends Extension {
         props: {
           // we can't use the keys bindings for this as we want to preventDefault
           // on the original keyboard event when handled
-          handleKeyDown: (vw, event) => {
+          handleKeyDown: (view, event) => {
             const matchingKey = find(this.options.keys, ({ keys }) => this.isMatchingKey(keys, event));
             if (matchingKey) {
                 const { action, keys } = matchingKey;
-                console.log(action, keys, event);
                 switch(action) {
                     case 'save': {
                       event.preventDefault();
@@ -36,11 +35,9 @@ export default class Keys extends Extension {
                       return true;
                     }
                     case 'newline': {
-                      const { view } = this.editor;
+                      const { state, dispatch } = view;
                       event.preventDefault();
-                      const tr = view.state.tr.insertText('\n');
-                      console.log(tr);
-                      view.dispatch(tr);
+                      dispatch(state.tr.insertText('\n'));
                       return true;
                     }
                     default: {
