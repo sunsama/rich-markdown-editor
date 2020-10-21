@@ -91,6 +91,10 @@ export type Props = {
   template?: boolean;
   headingsOffset?: number;
   scrollTo?: string;
+  keys?: Array<{
+    action: 'cancel' | 'save' | 'save_exit' | 'newline';
+    keys: string[];
+  }>;
   handleDOMEvents?: {
     [name: string]: (view: EditorView, event: Event) => boolean;
   };
@@ -140,6 +144,16 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
     onClickLink: href => {
       window.open(href, "_blank");
     },
+    keys: [{
+      action: 'cancel',
+      keys: ['Esc'],
+    }, {
+      action: 'save',
+      keys: ['Meta', 's'],
+    }, {
+      action: 'save_exit',
+      keys: ['Meta', 'Enter'],
+    }],
     disabledExtensions: [],
     embeds: [],
     extensions: [],
@@ -289,6 +303,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
             new TrailingNode(),
             new MarkdownPaste(),
             new Keys({
+              keys: this.props.keys,
               onSave: this.handleSave,
               onSaveAndExit: this.handleSaveAndExit,
               onCancel: this.props.onCancel,
