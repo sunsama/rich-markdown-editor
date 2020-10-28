@@ -202,8 +202,11 @@ export class MarkdownSerializerState {
         }
       }
 
-      const inner = marks.length && marks[marks.length - 1],
-        noEsc = inner && this.marks[inner.type.name].escape === false;
+      const inner = marks.length && marks[marks.length - 1];
+      if (inner && !this.marks[inner.type.name]) {
+        throw new Error(`Unsupported inner mark given "${inner.type.name}"`);
+      }
+      const noEsc = inner && this.marks[inner.type.name].escape === false;
       const len = marks.length - (noEsc ? 1 : 0);
 
       // Try to reorder 'mixable' marks, such as em and strong, which
@@ -212,9 +215,15 @@ export class MarkdownSerializerState {
       // active.
       outer: for (let i = 0; i < len; i++) {
         const mark = marks[i];
+        if (!this.marks[mark.type.name]) {
+          throw new Error(`Unsupported mark given "${mark.type.name}"`);
+        }
         if (!this.marks[mark.type.name].mixable) break;
         for (let j = 0; j < active.length; j++) {
           const other = active[j];
+          if (!this.marks[other.type.name]) {
+            throw new Error(`Unsupported other mark given "${other.type.name}"`);
+          }
           if (!this.marks[other.type.name].mixable) break;
           if (mark.eq(other)) {
             if (i > j)
