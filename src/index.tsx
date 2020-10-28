@@ -587,6 +587,8 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
     } = this.props;
 
     const isBlockMenuDisabled = disabledExtensions.includes('blockmenu');
+    const isLinkMenuDisabled = disabledExtensions.includes('linkmenu');
+    const isSelectionMenuDisabled = disabledExtensions.includes('selectionmenu');
     const theme = this.props.theme || (dark ? darkTheme : lightTheme);
 
     return (
@@ -607,26 +609,30 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
             />
             {!readOnly && this.view && (
               <React.Fragment>
-                <SelectionToolbar
-                  view={this.view}
-                  commands={this.commands}
-                  isTemplate={this.props.template === true}
-                  disabledExtensions={this.props.disabledExtensions}
-                  onSearchLink={this.props.onSearchLink}
-                  onClickLink={this.props.onClickLink}
-                  onCreateLink={this.props.onCreateLink}
-                  tooltip={tooltip}
-                />
-                <LinkToolbar
-                  view={this.view}
-                  isActive={this.state.linkMenuOpen}
-                  onCreateLink={this.props.onCreateLink}
-                  onSearchLink={this.props.onSearchLink}
-                  onClickLink={this.props.onClickLink}
-                  onShowToast={this.props.onShowToast}
-                  onClose={this.handleCloseLinkMenu}
-                  tooltip={tooltip}
-                />
+                {isLinkMenuDisabled ? null : (
+                    <SelectionToolbar
+                      view={this.view}
+                      commands={this.commands}
+                      isTemplate={this.props.template === true}
+                      disabledExtensions={this.props.disabledExtensions}
+                      onSearchLink={this.props.onSearchLink}
+                      onClickLink={this.props.onClickLink}
+                      onCreateLink={this.props.onCreateLink}
+                      tooltip={tooltip}
+                    />
+                )}
+                {isLinkMenuDisabled ? null : (
+                  <LinkToolbar
+                      view={this.view}
+                      isActive={this.state.linkMenuOpen}
+                      onCreateLink={this.props.onCreateLink}
+                      onSearchLink={this.props.onSearchLink}
+                      onClickLink={this.props.onClickLink}
+                      onShowToast={this.props.onShowToast}
+                      onClose={this.handleCloseLinkMenu}
+                      tooltip={tooltip}
+                    />
+                )}
                 {isBlockMenuDisabled ? null : (
                   <BlockMenu
                     view={this.view}
