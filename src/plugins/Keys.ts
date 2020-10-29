@@ -1,3 +1,5 @@
+
+import { includes, without, find } from 'lodash';
 import { Plugin } from "prosemirror-state";
 import Extension from "../lib/Extension";
 
@@ -13,29 +15,50 @@ export default class Keys extends Extension {
           // we can't use the keys bindings for this as we want to preventDefault
           // on the original keyboard event when handled
           handleKeyDown: (view, event) => {
-            if (!event.metaKey) return false;
-            if (event.key === "s") {
-              event.preventDefault();
-              this.options.onSave();
-              return true;
+            const matchingKey = find(this.options.keys, ({ keys }) => this.isMatchingKey(keys, event));
+            if (matchingKey) {
+                const { action, keys } = matchingKey;
+                switch(action) {
+                    case 'save': {
+                      event.preventDefault();
+                      this.options.onSave();
+                      return true;
+                    }
+                    case 'save_exit': {
+                      event.preventDefault();
+                      this.options.onSaveAndExit();
+                      return true;
+                    }
+                    case 'cancel': {
+                      event.preventDefault();
+                      this.options.onCancel();
+                      return true;
+                    }
+                    case 'newline': {
+                      const { state, dispatch } = view;
+                      event.preventDefault();
+                      dispatch(state.tr.insertText('\n'));
+                      return true;
+                    }
+                    default: {
+                        console.warn(`Unknown action specified in keys ${action}`);
+                        return false;
+                    }
+                }
             }
-
-            if (event.key === "Enter") {
-              event.preventDefault();
-              this.options.onSaveAndExit();
-              return true;
-            }
-
-            if (event.key === "Escape") {
-              event.preventDefault();
-              this.options.onCancel();
-              return true;
-            }
-
             return false;
           },
         },
       }),
     ];
+  }
+
+  isMatchingKey(keys: string[], event) {
+      const shouldHaveMeta = includes(keys, 'Meta');
+      if (shouldHaveMeta && !event.metaKey) {
+          return false;
+      }
+      const nonMetaKeys = without(keys, 'Ctrl', 'Cmd',  'Meta');
+      return nonMetaKeys.includes(event.key);
   }
 }
