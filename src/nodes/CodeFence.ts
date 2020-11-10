@@ -83,7 +83,6 @@ export default class CodeFence extends Node {
         return [
           "div",
           { class: "code-block" },
-          ["div", { contentEditable: false }, select, button],
           ["pre", { 'language': select.value }, ["code", { spellCheck: false }, 0]],
         ];
       },

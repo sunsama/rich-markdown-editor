@@ -37,15 +37,8 @@ export default class Heading extends Node {
         attrs: { level },
       })),
       toDOM: node => {
-        const button = document.createElement("button");
-        button.innerText = "#";
-        button.type = "button";
-        button.className = "heading-anchor";
-        button.addEventListener("click", this.handleCopyLink());
-
         return [
           `h${node.attrs.level + (this.options.offset || 0)}`,
-          button,
           ["span", 0],
         ];
       },

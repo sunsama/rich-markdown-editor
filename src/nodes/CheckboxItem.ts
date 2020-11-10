@@ -43,9 +43,8 @@ export default class CheckboxItem extends Node {
         const input = document.createElement("input");
         input.type = "checkbox";
         input.addEventListener("click", this.handleChange);
-
         if (node.attrs.checked) {
-          input.checked = true;
+          input.setAttribute("checked","");
         }
 
         return [
