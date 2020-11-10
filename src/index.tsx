@@ -1,4 +1,5 @@
 /* global window File Promise */
+import 'core-js/es/object';
 import * as React from "react";
 import { isUndefined } from 'lodash';
 import markdownit from "markdown-it";
