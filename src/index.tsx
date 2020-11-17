@@ -8,7 +8,7 @@ import { dropCursor } from "prosemirror-dropcursor";
 import { gapCursor } from "prosemirror-gapcursor";
 import { MarkdownParser, MarkdownSerializer } from "prosemirror-markdown";
 import { DecorationSet, EditorView } from "prosemirror-view";
-import { Schema, NodeSpec, MarkSpec, Slice, DOMParser, DOMSerializer } from "prosemirror-model";
+import { Schema, NodeSpec, MarkSpec, Slice, DOMParser as ProsemirrorDOMParser, DOMSerializer } from "prosemirror-model";
 import { inputRules, InputRule } from "prosemirror-inputrules";
 import { keymap } from "prosemirror-keymap";
 import { baseKeymap } from "prosemirror-commands";
@@ -80,6 +80,8 @@ export type Props = {
   id?: string;
   value?: string;
   defaultValue: string;
+  htmlValue?: string;
+  defaultHtmlValue?: string;
   placeholder: string;
   extensions: Extension[];
   priorityExtensions: Extension[];
@@ -96,7 +98,7 @@ export type Props = {
     [name: string]: (view: EditorView, event: Event) => boolean;
   };
   decorations?: (state: EditorState) => DecorationSet,
-  clipboardParser?: DOMParser,
+  clipboardParser?: ProsemirrorDOMParser,
   clipboardSerializer?: DOMSerializer,
   disabledExtensions?: string[],
   uploadImage?: (file: File) => Promise<string>;
@@ -186,8 +188,10 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     // Allow changes to the 'value' prop to update the editor from outside
-    if (this.props.value && prevProps.value !== this.props.value) {
-      const newState = this.createState(this.props.value);
+    if ((this.props.value && prevProps.value !== this.props.value)
+        || (this.props.htmlValue && prevProps.htmlValue !== this.props.htmlValue)
+    ) {
+      const newState = this.createState({ value: this.props.value, html: this.props.htmlValue });
       this.view.updateState(newState);
     }
 
@@ -379,8 +383,14 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
     });
   }
 
-  createState(value?: string) {
-    const doc = this.createDocument(isUndefined(value) ? this.props.defaultValue : value);
+  createState({ value, html } : { value?: string; html?: string } = {}) {
+    let doc;
+    if (!isUndefined(html) || this.props.defaultHtmlValue) {
+        const el = new DOMParser().parseFromString(isUndefined(html) ? this.props.defaultHtmlValue! : html, 'text/html');
+        doc = ProsemirrorDOMParser.fromSchema(this.schema).parse(el, { preserveWhitespace: 'full' });
+    } else {
+        doc = this.createDocument(isUndefined(value) ? this.props.defaultValue : value);
+    }
 
     return EditorState.create({
       schema: this.schema,
