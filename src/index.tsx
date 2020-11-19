@@ -54,6 +54,7 @@ import TableRow from "./nodes/TableRow";
 // marks
 import Bold from "./marks/Bold";
 import Code from "./marks/Code";
+import LegacyCode from "./marks/LegacyCode";
 import Highlight from "./marks/Highlight";
 import Italic from "./marks/Italic";
 import Link from "./marks/Link";
@@ -278,6 +279,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
             new TableRow(),
             new Bold(),
             new Code(),
+            new LegacyCode(),
             new Highlight(),
             new Italic(),
             new TemplatePlaceholder(),
