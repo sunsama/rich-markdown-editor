@@ -13,6 +13,7 @@ import {
 import { flatten } from 'lodash';
 import { isInTable } from "prosemirror-tables";
 import { EditorState } from "prosemirror-state";
+import UnderlineIcon from "../components/UnderlineIcon";
 import isInList from "../queries/isInList";
 import isMarkActive from "../queries/isMarkActive";
 import isNodeActive from "../queries/isNodeActive";
@@ -57,6 +58,12 @@ export default function formattingMenuItems(
       tooltip: "Italic",
       icon: ItalicIcon,
       active: isMarkActive(schema.marks.em),
+    },
+    {
+      name: "underline",
+      tooltip: "Underline",
+      icon: UnderlineIcon,
+      active: isMarkActive(schema.marks.underline),
     },
     {
       name: "strikethrough",
