@@ -57,6 +57,7 @@ import Code from "./marks/Code";
 import LegacyCode from "./marks/LegacyCode";
 import Highlight from "./marks/Highlight";
 import Italic from "./marks/Italic";
+import Underline from "./marks/Underline";
 import Link from "./marks/Link";
 import Strikethrough from "./marks/Strikethrough";
 import TemplatePlaceholder from "./marks/Placeholder";
@@ -282,6 +283,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
             new LegacyCode(),
             new Highlight(),
             new Italic(),
+            new Underline(),
             new TemplatePlaceholder(),
             new Link({
               onKeyboardShortcut: this.handleOpenLinkMenu,
