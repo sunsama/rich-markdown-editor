@@ -29,6 +29,7 @@ import Code from "./marks/Code";
 import LegacyCode from "./marks/LegacyCode";
 import Highlight from "./marks/Highlight";
 import Italic from "./marks/Italic";
+import Underline from "./marks/Underline";
 import Link from "./marks/Link";
 import Strikethrough from "./marks/Strikethrough";
 import TemplatePlaceholder from "./marks/Placeholder";
@@ -57,6 +58,7 @@ const extensions = new ExtensionManager([
   new Code(),
   new LegacyCode(),
   new Highlight(),
+  new Underline(),
   new Italic(),
   new Link(),
   new Strikethrough(),
