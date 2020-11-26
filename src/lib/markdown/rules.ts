@@ -6,12 +6,14 @@ import embedsPlugin from "./embeds";
 import breakPlugin from "./breaks";
 import tablesPlugin from "./tables";
 import noticesPlugin from "./notices";
+import underlinePlugin from 'markdown-it-plugin-underline'
 
 export default function rules({ embeds, additionalMarkdownPlugins }) {
   const md = markdownit("default", {
     breaks: false,
     html: false,
   })
+    .use(underlinePlugin)
     .use(embedsPlugin(embeds))
     .use(breakPlugin)
     .use(checkboxPlugin)

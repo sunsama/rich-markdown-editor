@@ -3538,6 +3538,11 @@ markdown-it-mark@^3.0.0:
   resolved "https://registry.yarnpkg.com/markdown-it-mark/-/markdown-it-mark-3.0.0.tgz#27c3e39ef3cc310b2dde5375082c9fa912983cda"
   integrity sha512-HqMWeKfMMOu4zBO0emmxsoMWmbf2cPKZY1wP6FsTbKmicFfp5y4L3KXAsNeO1rM6NTJVOrNlLKMPjWzriBGspw==
 
+markdown-it-plugin-underline@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/markdown-it-plugin-underline/-/markdown-it-plugin-underline-0.0.1.tgz#02af7fff0c54286f2d954ee2742c283261a3a1ef"
+  integrity sha512-DtmxlE70JpNSacXU62kLa7degjVft4GU9QkR8cL0LYZLK7k6xgibpoUMsNdvtDG8QSUGOl1955AFtDJC7d9t6g==
+
 markdown-it@^10.0.0:
   version "10.0.0"
   resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-10.0.0.tgz#abfc64f141b1722d663402044e43927f1f50a8dc"

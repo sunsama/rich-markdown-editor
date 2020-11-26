@@ -2,7 +2,15 @@ import { toggleMark } from "prosemirror-commands";
 import markInputRule from "../lib/markInputRule";
 import Mark from "./Mark";
 
-const UNDERLINE_INPUT_REGEX = /<u>([\S\s]*?)<\/u>/;
+const UNDERLINE_INPUT_REGEX = /(?:^|[^\+\+])(\+\+([^\+\+]+)\+\+)$/;
+
+function isUnderlined(dom: any) {
+    return (
+        dom.style.textDecoration === 'underline' ||
+        dom.style['text-decoration'] === 'underline' ||
+        dom.style['text-decoration-line'] === 'underline'
+    );
+}
 
 export default class Underline extends Mark {
   get name() {
@@ -11,13 +19,24 @@ export default class Underline extends Mark {
 
   get schema() {
     return {
+      attrs: {
+        style: {
+          default: 'text-decoration:underline;',
+        },
+      },
+      toDOM: node => ['span', { style: node.attrs.style }],
       parseDOM: [
-        { tag: "u" },
-        { style: "text-decoration", getAttrs: value => value && value.indexOf("underline") > -1 },
+        {
+          tag: 'span',
+          getAttrs: dom => (isUnderlined(dom) ? { style: 'text-decoration:underline;' } : false),
+        },
+        {
+          tag: 'div',
+          getAttrs: dom => (isUnderlined(dom) ? { style: 'text-decoration:underline;' } : false),
+        },
+        { tag: 'u' },
+        { tag: 'ins' },
       ],
-      toDOM: () => ["span", {
-          style: "text-decoration:underline"
-      },0],
     };
   }
 
@@ -36,11 +55,15 @@ export default class Underline extends Mark {
 
   get toMarkdown() {
     return {
-      open: '<u>',
-      close: '</u>',
+      open: '++',
+      close: '++',
       mixable: true,
       expelEnclosingWhitespace: true,
     };
+  }
+
+  get markdownToken() {
+    return "u";
   }
 
   parseMarkdown() {
