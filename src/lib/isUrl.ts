@@ -1,13 +1,6 @@
+
+export const URL_INPUT_REGEX = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+
 export default function isUrl(text: string) {
-  try {
-    new URL(text);
-    return true;
-  } catch (err) {
-    try {
-      new URL(`https://${text}`);
-      return true;
-    } catch (err) {
-      return false;
-    }
-  }
+  return (text || '').match(URL_INPUT_REGEX);
 }

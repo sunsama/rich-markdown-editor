@@ -1,10 +1,10 @@
 import { toggleMark } from "prosemirror-commands";
 import { Plugin } from "prosemirror-state";
 import { InputRule } from "prosemirror-inputrules";
+import { URL_INPUT_REGEX } from "../lib/isUrl";
 import Mark from "./Mark";
 
 const LINK_INPUT_REGEX = /\[(.+)]\((\S+)\)/;
-const URL_INPUT_REGEX = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 
 function isPlainURL(link, parent, index, side) {
   if (link.attrs.title || !/^\w+:/.test(link.attrs.href)) {
