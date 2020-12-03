@@ -41,6 +41,7 @@ export default class MarkdownPaste extends Extension {
                 for (const embed of embeds) {
                   const matches = embed.matcher(text);
                   if (matches) {
+                    console.log('replacing embeds', embeds);
                     this.editor.commands.embed({
                       href: text,
                       component: embed.component,
@@ -50,6 +51,13 @@ export default class MarkdownPaste extends Extension {
                   }
                 }
               }
+
+              const paste = this.editor.parser.parse(`[${text}](${text})`);
+              const slice = paste.slice(0);
+
+              const transaction = state.tr.replaceSelection(slice);
+              dispatch(transaction);
+              return true;
             }
 
             // otherwise, if we have html then fallback to the default HTML

@@ -3,6 +3,11 @@ export default function isUrl(text: string) {
     new URL(text);
     return true;
   } catch (err) {
-    return false;
+    try {
+      new URL(`https://${text}`);
+      return true;
+    } catch (err) {
+      return false;
+    }
   }
 }
