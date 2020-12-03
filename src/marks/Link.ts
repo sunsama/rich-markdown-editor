@@ -4,6 +4,7 @@ import { InputRule } from "prosemirror-inputrules";
 import Mark from "./Mark";
 
 const LINK_INPUT_REGEX = /\[(.+)]\((\S+)\)/;
+const URL_INPUT_REGEX = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 
 function isPlainURL(link, parent, index, side) {
   if (link.attrs.title || !/^\w+:/.test(link.attrs.href)) {
@@ -69,6 +70,19 @@ export default class Link extends Mark {
           tr.replaceWith(start, end, this.editor.schema.text(alt)).addMark(
             start,
             start + alt.length,
+            type.create({ href })
+          );
+        }
+
+        return tr;
+      }),
+      new InputRule(URL_INPUT_REGEX, (state, match, start, end) => {
+        const [href] = match;
+        const { tr } = state;
+        if (href) {
+          tr.replaceWith(start, end, this.editor.schema.text(href)).addMark(
+            start,
+            start + href.length,
             type.create({ href })
           );
         }
