@@ -123,15 +123,6 @@ export default class Link extends Mark {
               return false;
             },
             click: (view, event: MouseEvent) => {
-              // allow opening links in editing mode with the meta/cmd key
-              if (
-                view.props.editable &&
-                view.props.editable(view.state) &&
-                !event.metaKey
-              ) {
-                return false;
-              }
-
               if (event.target instanceof HTMLAnchorElement) {
                 const { href } = event.target;
 
