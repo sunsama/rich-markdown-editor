@@ -86,7 +86,12 @@ export default class SelectionToolbar extends React.Component<Props> {
   };
 
   render() {
-    const { onCreateLink, isTemplate, disabledExtensions, ...rest } = this.props;
+    const {
+      onCreateLink,
+      isTemplate,
+      disabledExtensions,
+      ...rest
+    } = this.props;
     const { view } = rest;
     const { state } = view;
     const { selection }: { selection: any } = state;

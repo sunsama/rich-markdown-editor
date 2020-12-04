@@ -140,10 +140,9 @@ export default function blockMenuItems(): MenuItem[] {
 
 // TODO Fill in any more that we need
 export const extensionBlockNames = {
-    h1: [{ name: 'heading', attrs: { level: 1 }}],
-    h2: [{ name: 'heading', attrs: { level: 2 }}],
-    h3: [{ name: 'heading', attrs: { level: 3 }}],
-    notice: ['container_notice'],
-    horizontal_rule: ['hr']
-}
-
+  h1: [{ name: "heading", attrs: { level: 1 } }],
+  h2: [{ name: "heading", attrs: { level: 2 } }],
+  h3: [{ name: "heading", attrs: { level: 3 } }],
+  notice: ["container_notice"],
+  horizontal_rule: ["hr"],
+};

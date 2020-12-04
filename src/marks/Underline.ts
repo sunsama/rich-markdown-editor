@@ -5,11 +5,11 @@ import Mark from "./Mark";
 const UNDERLINE_INPUT_REGEX = /(?:^|[^\+\+])(\+\+([^\+\+]+)\+\+)$/;
 
 function isUnderlined(dom: any) {
-    return (
-        dom.style.textDecoration === 'underline' ||
-        dom.style['text-decoration'] === 'underline' ||
-        dom.style['text-decoration-line'] === 'underline'
-    );
+  return (
+    dom.style.textDecoration === "underline" ||
+    dom.style["text-decoration"] === "underline" ||
+    dom.style["text-decoration-line"] === "underline"
+  );
 }
 
 export default class Underline extends Mark {
@@ -21,29 +21,29 @@ export default class Underline extends Mark {
     return {
       attrs: {
         style: {
-          default: 'text-decoration:underline;',
+          default: "text-decoration:underline;",
         },
       },
-      toDOM: node => ['span', { style: node.attrs.style }],
+      toDOM: node => ["span", { style: node.attrs.style }],
       parseDOM: [
         {
-          tag: 'span',
-          getAttrs: dom => (isUnderlined(dom) ? { style: 'text-decoration:underline;' } : false),
+          tag: "span",
+          getAttrs: dom =>
+            isUnderlined(dom) ? { style: "text-decoration:underline;" } : false,
         },
         {
-          tag: 'div',
-          getAttrs: dom => (isUnderlined(dom) ? { style: 'text-decoration:underline;' } : false),
+          tag: "div",
+          getAttrs: dom =>
+            isUnderlined(dom) ? { style: "text-decoration:underline;" } : false,
         },
-        { tag: 'u' },
-        { tag: 'ins' },
+        { tag: "u" },
+        { tag: "ins" },
       ],
     };
   }
 
   inputRules({ type }) {
-    return [
-      markInputRule(UNDERLINE_INPUT_REGEX, type),
-    ];
+    return [markInputRule(UNDERLINE_INPUT_REGEX, type)];
   }
 
   keys({ type }) {
@@ -55,8 +55,8 @@ export default class Underline extends Mark {
 
   get toMarkdown() {
     return {
-      open: '++',
-      close: '++',
+      open: "++",
+      close: "++",
       mixable: true,
       expelEnclosingWhitespace: true,
     };
@@ -68,7 +68,7 @@ export default class Underline extends Mark {
 
   parseMarkdown() {
     return {
-      mark: "underline"
+      mark: "underline",
     };
   }
 }

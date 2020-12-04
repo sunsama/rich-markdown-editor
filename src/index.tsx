@@ -1,14 +1,21 @@
 /* global window File Promise */
-import 'core-js/es/object';
+import "core-js/es/object";
 import * as React from "react";
-import { isUndefined } from 'lodash';
+import { isUndefined } from "lodash";
 import markdownit from "markdown-it";
 import { EditorState, Selection, Plugin } from "prosemirror-state";
 import { dropCursor } from "prosemirror-dropcursor";
 import { gapCursor } from "prosemirror-gapcursor";
 import { MarkdownParser, MarkdownSerializer } from "prosemirror-markdown";
 import { DecorationSet, EditorView } from "prosemirror-view";
-import { Schema, NodeSpec, MarkSpec, Slice, DOMParser as ProsemirrorDOMParser, DOMSerializer } from "prosemirror-model";
+import {
+  Schema,
+  NodeSpec,
+  MarkSpec,
+  Slice,
+  DOMParser as ProsemirrorDOMParser,
+  DOMSerializer,
+} from "prosemirror-model";
 import { inputRules, InputRule } from "prosemirror-inputrules";
 import { keymap } from "prosemirror-keymap";
 import { baseKeymap } from "prosemirror-commands";
@@ -99,10 +106,10 @@ export type Props = {
   handleDOMEvents?: {
     [name: string]: (view: EditorView, event: Event) => boolean;
   };
-  decorations?: (state: EditorState) => DecorationSet,
-  clipboardParser?: ProsemirrorDOMParser,
-  clipboardSerializer?: DOMSerializer,
-  disabledExtensions?: string[],
+  decorations?: (state: EditorState) => DecorationSet;
+  clipboardParser?: ProsemirrorDOMParser;
+  clipboardSerializer?: DOMSerializer;
+  disabledExtensions?: string[];
   uploadImage?: (file: File) => Promise<string>;
   onSave?: ({ done: boolean }) => void;
   onCancel?: () => void;
@@ -190,10 +197,14 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     // Allow changes to the 'value' prop to update the editor from outside
-    if ((this.props.value && prevProps.value !== this.props.value)
-        || (this.props.htmlValue && prevProps.htmlValue !== this.props.htmlValue)
+    if (
+      (this.props.value && prevProps.value !== this.props.value) ||
+      (this.props.htmlValue && prevProps.htmlValue !== this.props.htmlValue)
     ) {
-      const newState = this.createState({ value: this.props.value, html: this.props.htmlValue });
+      const newState = this.createState({
+        value: this.props.value,
+        html: this.props.htmlValue,
+      });
       this.view.updateState(newState);
     }
 
@@ -239,76 +250,76 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
       [
         ...this.props.priorityExtensions,
         ...[
-            new Doc(),
-            new Text(),
-              // new EmptyLine(),
-            new Paragraph(),
-            new Blockquote(),
-            new BulletList(),
-            new CodeBlock({
-              initialReadOnly: this.props.readOnly,
-              onShowToast: this.props.onShowToast,
-            }),
-            new CodeFence({
-              initialReadOnly: this.props.readOnly,
-              onShowToast: this.props.onShowToast,
-            }),
-            new CheckboxList(),
-            new CheckboxItem(),
-            new Embed(),
-            new ListItem(),
-            new Notice(),
-            new Heading({
-              onShowToast: this.props.onShowToast,
-              offset: this.props.headingsOffset,
-            }),
-            new HorizontalRule(),
-            new Image({
-              uploadImage: this.props.uploadImage,
-              onImageUploadStart: this.props.onImageUploadStart,
-              onImageUploadStop: this.props.onImageUploadStop,
-              onShowToast: this.props.onShowToast,
-            }),
-            new Table(),
-            new TableCell({
-              onSelectTable: this.handleSelectTable,
-              onSelectRow: this.handleSelectRow,
-            }),
-            new TableHeadCell({
-              onSelectColumn: this.handleSelectColumn,
-            }),
-            new TableRow(),
-            new Bold(),
-            new Code(),
-            new LegacyCode(),
-            new Highlight(),
-            new Italic(),
-            new Underline(),
-            new TemplatePlaceholder(),
-            new Link({
-              onKeyboardShortcut: this.handleOpenLinkMenu,
-              onClickLink: this.props.onClickLink,
-              onClickHashtag: this.props.onClickHashtag,
-              onHoverLink: this.props.onHoverLink,
-            }),
-            new Strikethrough(),
-            new OrderedList(),
-            new History(),
-            new SmartText(),
-            new TrailingNode(),
-            new MarkdownPaste(),
-            new Keys({
-              onSave: this.handleSave,
-              onSaveAndExit: this.handleSaveAndExit,
-              onCancel: this.props.onCancel,
-            }),
-            new BlockMenuTrigger({
-              onOpen: this.handleOpenBlockMenu,
-              onClose: this.handleCloseBlockMenu,
-            }),
-            new Placeholder({
-              placeholder: this.props.placeholder,
-            }),
+          new Doc(),
+          new Text(),
+          // new EmptyLine(),
+          new Paragraph(),
+          new Blockquote(),
+          new BulletList(),
+          new CodeBlock({
+            initialReadOnly: this.props.readOnly,
+            onShowToast: this.props.onShowToast,
+          }),
+          new CodeFence({
+            initialReadOnly: this.props.readOnly,
+            onShowToast: this.props.onShowToast,
+          }),
+          new CheckboxList(),
+          new CheckboxItem(),
+          new Embed(),
+          new ListItem(),
+          new Notice(),
+          new Heading({
+            onShowToast: this.props.onShowToast,
+            offset: this.props.headingsOffset,
+          }),
+          new HorizontalRule(),
+          new Image({
+            uploadImage: this.props.uploadImage,
+            onImageUploadStart: this.props.onImageUploadStart,
+            onImageUploadStop: this.props.onImageUploadStop,
+            onShowToast: this.props.onShowToast,
+          }),
+          new Table(),
+          new TableCell({
+            onSelectTable: this.handleSelectTable,
+            onSelectRow: this.handleSelectRow,
+          }),
+          new TableHeadCell({
+            onSelectColumn: this.handleSelectColumn,
+          }),
+          new TableRow(),
+          new Bold(),
+          new Code(),
+          new LegacyCode(),
+          new Highlight(),
+          new Italic(),
+          new Underline(),
+          new TemplatePlaceholder(),
+          new Link({
+            onKeyboardShortcut: this.handleOpenLinkMenu,
+            onClickLink: this.props.onClickLink,
+            onClickHashtag: this.props.onClickHashtag,
+            onHoverLink: this.props.onHoverLink,
+          }),
+          new Strikethrough(),
+          new OrderedList(),
+          new History(),
+          new SmartText(),
+          new TrailingNode(),
+          new MarkdownPaste(),
+          new Keys({
+            onSave: this.handleSave,
+            onSaveAndExit: this.handleSaveAndExit,
+            onCancel: this.props.onCancel,
+          }),
+          new BlockMenuTrigger({
+            onOpen: this.handleOpenBlockMenu,
+            onClose: this.handleCloseBlockMenu,
+          }),
+          new Placeholder({
+            placeholder: this.props.placeholder,
+          }),
         ].filter(extension => !disabledExtensions.includes(extension.name)),
         ...this.props.extensions,
       ],
@@ -387,13 +398,20 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
     });
   }
 
-  createState({ value, html } : { value?: string; html?: string } = {}) {
+  createState({ value, html }: { value?: string; html?: string } = {}) {
     let doc;
     if (!isUndefined(html) || this.props.defaultHtmlValue) {
-        const el = new DOMParser().parseFromString(isUndefined(html) ? this.props.defaultHtmlValue! : html, 'text/html');
-        doc = ProsemirrorDOMParser.fromSchema(this.schema).parse(el, { preserveWhitespace: 'full' });
+      const el = new DOMParser().parseFromString(
+        isUndefined(html) ? this.props.defaultHtmlValue! : html,
+        "text/html"
+      );
+      doc = ProsemirrorDOMParser.fromSchema(this.schema).parse(el, {
+        preserveWhitespace: "full",
+      });
     } else {
-        doc = this.createDocument(isUndefined(value) ? this.props.defaultValue : value);
+      doc = this.createDocument(
+        isUndefined(value) ? this.props.defaultValue : value
+      );
     }
 
     return EditorState.create({
@@ -437,7 +455,10 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
       handleDOMEvents: this.props.handleDOMEvents,
       decorations: this.props.decorations,
       clipboardSerializer: this.props.clipboardSerializer,
-      clipboardTextSerializer: slice => this.serializer.serialize(this.schema.node('doc', undefined, slice.content)),
+      clipboardTextSerializer: slice =>
+        this.serializer.serialize(
+          this.schema.node("doc", undefined, slice.content)
+        ),
       clipboardParser: this.props.clipboardParser,
       dispatchTransaction: transaction => {
         const { state, transactions } = this.view.state.applyTransaction(
@@ -486,10 +507,9 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
   };
 
   triggerPostinitializationHooks() {
-    return this.extensions.extensions
-      .forEach((extension: ReactNode) => {
-          extension.handleInitialization();
-      });
+    return this.extensions.extensions.forEach((extension: ReactNode) => {
+      extension.handleInitialization();
+    });
   }
 
   handleChange = () => {
@@ -601,9 +621,11 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
       disabledExtensions = [],
     } = this.props;
 
-    const isBlockMenuDisabled = disabledExtensions.includes('blockmenu');
-    const isLinkMenuDisabled = disabledExtensions.includes('linkmenu');
-    const isSelectionMenuDisabled = disabledExtensions.includes('selectionmenu');
+    const isBlockMenuDisabled = disabledExtensions.includes("blockmenu");
+    const isLinkMenuDisabled = disabledExtensions.includes("linkmenu");
+    const isSelectionMenuDisabled = disabledExtensions.includes(
+      "selectionmenu"
+    );
     const theme = this.props.theme || (dark ? darkTheme : lightTheme);
 
     return (
@@ -625,28 +647,28 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
             {!readOnly && this.view && (
               <React.Fragment>
                 {isLinkMenuDisabled ? null : (
-                    <SelectionToolbar
-                      view={this.view}
-                      commands={this.commands}
-                      isTemplate={this.props.template === true}
-                      disabledExtensions={this.props.disabledExtensions}
-                      onSearchLink={this.props.onSearchLink}
-                      onClickLink={this.props.onClickLink}
-                      onCreateLink={this.props.onCreateLink}
-                      tooltip={tooltip}
-                    />
+                  <SelectionToolbar
+                    view={this.view}
+                    commands={this.commands}
+                    isTemplate={this.props.template === true}
+                    disabledExtensions={this.props.disabledExtensions}
+                    onSearchLink={this.props.onSearchLink}
+                    onClickLink={this.props.onClickLink}
+                    onCreateLink={this.props.onCreateLink}
+                    tooltip={tooltip}
+                  />
                 )}
                 {isLinkMenuDisabled ? null : (
                   <LinkToolbar
-                      view={this.view}
-                      isActive={this.state.linkMenuOpen}
-                      onCreateLink={this.props.onCreateLink}
-                      onSearchLink={this.props.onSearchLink}
-                      onClickLink={this.props.onClickLink}
-                      onShowToast={this.props.onShowToast}
-                      onClose={this.handleCloseLinkMenu}
-                      tooltip={tooltip}
-                    />
+                    view={this.view}
+                    isActive={this.state.linkMenuOpen}
+                    onCreateLink={this.props.onCreateLink}
+                    onSearchLink={this.props.onSearchLink}
+                    onClickLink={this.props.onClickLink}
+                    onShowToast={this.props.onShowToast}
+                    onClose={this.handleCloseLinkMenu}
+                    tooltip={tooltip}
+                  />
                 )}
                 {isBlockMenuDisabled ? null : (
                   <BlockMenu

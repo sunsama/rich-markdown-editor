@@ -222,7 +222,9 @@ export class MarkdownSerializerState {
         for (let j = 0; j < active.length; j++) {
           const other = active[j];
           if (!this.marks[other.type.name]) {
-            throw new Error(`Unsupported other mark given "${other.type.name}"`);
+            throw new Error(
+              `Unsupported other mark given "${other.type.name}"`
+            );
           }
           if (!this.marks[other.type.name].mixable) break;
           if (mark.eq(other)) {

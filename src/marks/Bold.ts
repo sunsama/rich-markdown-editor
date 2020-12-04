@@ -10,9 +10,16 @@ export default class Bold extends Mark {
   get schema() {
     return {
       parseDOM: [
-        { tag: "b", getAttrs: node => node.style.fontWeight != "normal" && null},
+        {
+          tag: "b",
+          getAttrs: node => node.style.fontWeight != "normal" && null,
+        },
         { tag: "strong" },
-        { style: "font-weight", getAttrs: value => ["bold", "bolder", "600", "700", "800", "900"].includes(value) },
+        {
+          style: "font-weight",
+          getAttrs: value =>
+            ["bold", "bolder", "600", "700", "800", "900"].includes(value),
+        },
         { style: "font-style", getAttrs: value => value === "bold" },
       ],
       toDOM: () => ["strong"],

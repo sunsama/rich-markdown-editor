@@ -108,7 +108,9 @@ class Example extends React.Component {
             {this.state.template ? "Switch to Document" : "Switch to Template"}
           </button>{" "}
           <button type="button" onClick={this.handleToggleDisabledExtensions}>
-            {this.state.disableExtensions ? "Enable dividers and highlights" : "Disable dividers and highlights"}
+            {this.state.disableExtensions
+              ? "Enable dividers and highlights"
+              : "Disable dividers and highlights"}
           </button>{" "}
           <button type="button" onClick={this.handleUpdateValue}>
             Update value
@@ -122,10 +124,9 @@ class Example extends React.Component {
           readOnlyWriteCheckboxes
           value={this.state.value}
           template={this.state.template}
-          disabledExtensions={this.state.disableExtensions ? [
-              'highlight',
-              'horizontal_rule'
-          ] : []}
+          disabledExtensions={
+            this.state.disableExtensions ? ["highlight", "horizontal_rule"] : []
+          }
           defaultValue={defaultValue}
           scrollTo={window.location.hash}
           handleDOMEvents={{

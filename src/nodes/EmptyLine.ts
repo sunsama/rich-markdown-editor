@@ -1,4 +1,3 @@
-
 import { setBlockType } from "prosemirror-commands";
 import Node from "./Node";
 
@@ -10,9 +9,7 @@ export default class EmptyLine extends Node {
   get schema() {
     return {
       group: "block",
-      parseDOM: [
-          { tag: "br" },
-      ],
+      parseDOM: [{ tag: "br" }],
       toDOM() {
         return ["br"];
       },

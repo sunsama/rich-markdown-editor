@@ -362,17 +362,24 @@ class BlockMenu extends React.Component<Props, State> {
       items = items.concat(embedItems);
     }
 
-    const disabledBlocks = flatten(disabledExtensions.map(extension => extensionBlockNames[extension] || [extension]))
+    const disabledBlocks = flatten(
+      disabledExtensions.map(
+        extension => extensionBlockNames[extension] || [extension]
+      )
+    );
 
     const filtered = items.filter(item => {
       if (item.name === "separator") return true;
 
       const n = search.toLowerCase();
       return (
-          !some(disabledBlocks, disabledBlock => isString(disabledBlock) ? disabledBlock === item.name || '' : isMatch(item, disabledBlock)) && (
-          (item.title || "").toLowerCase().includes(n) ||
-          (item.keywords || "").toLowerCase().includes(n)
-        )
+        !some(disabledBlocks, disabledBlock =>
+          isString(disabledBlock)
+            ? disabledBlock === item.name || ""
+            : isMatch(item, disabledBlock)
+        ) &&
+        ((item.title || "").toLowerCase().includes(n) ||
+          (item.keywords || "").toLowerCase().includes(n))
       );
     });
 
@@ -399,7 +406,7 @@ class BlockMenu extends React.Component<Props, State> {
 
   render() {
     const { isActive, disabledExtensions = [] } = this.props;
-    if (disabledExtensions.includes('blockmenu')) {
+    if (disabledExtensions.includes("blockmenu")) {
       return null;
     }
     const items = this.filtered;

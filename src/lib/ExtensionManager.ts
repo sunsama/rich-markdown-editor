@@ -14,7 +14,11 @@ export default class ExtensionManager {
   embeds;
   additionalMarkdownPlugins: PluginSimple[];
 
-  constructor(extensions: Extension[] = [], editor?: Editor, additionalMarkdownPlugins: PluginSimple[] = []) {
+  constructor(
+    extensions: Extension[] = [],
+    editor?: Editor,
+    additionalMarkdownPlugins: PluginSimple[] = []
+  ) {
     if (editor) {
       extensions.forEach(extension => {
         extension.bindEditor(editor);
@@ -79,7 +83,10 @@ export default class ExtensionManager {
 
     return new MarkdownParser(
       schema,
-      makeRules({ embeds: this.embeds, additionalMarkdownPlugins: this.additionalMarkdownPlugins }),
+      makeRules({
+        embeds: this.embeds,
+        additionalMarkdownPlugins: this.additionalMarkdownPlugins,
+      }),
       tokens
     );
   }

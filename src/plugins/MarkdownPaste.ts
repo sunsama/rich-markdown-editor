@@ -21,7 +21,9 @@ export default class MarkdownPaste extends Extension {
 
             const text = event.clipboardData.getData("text/plain");
             const html = event.clipboardData.getData("text/html");
-            const isFromNotion = event.clipboardData.types.includes("text/_notion-blocks-v2-production");
+            const isFromNotion = event.clipboardData.types.includes(
+              "text/_notion-blocks-v2-production"
+            );
             const { state, dispatch } = view;
 
             // first check if the clipboard contents can be parsed as a url
@@ -52,7 +54,9 @@ export default class MarkdownPaste extends Extension {
                 }
               }
 
-              const linkMark = this.editor.schema.marks.link.create({ href: text });
+              const linkMark = this.editor.schema.marks.link.create({
+                href: text,
+              });
               const node = this.editor.schema.text(text, [linkMark]);
               const slice = new Slice(Fragment.fromArray([node]), 0, 0);
 

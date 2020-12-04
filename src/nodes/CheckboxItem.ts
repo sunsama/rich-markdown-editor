@@ -30,13 +30,13 @@ export default class CheckboxItem extends Node {
           }),
         },
         {
-            // parses Github styled checkbox-item
-            tag: `li[class="task-list-item enabled"]`,
-            getAttrs: dom => ({
-                checked: dom.getElementsByTagName("input")[0].checked
-                    ? true
-                    : false,
-            }),
+          // parses Github styled checkbox-item
+          tag: `li[class="task-list-item enabled"]`,
+          getAttrs: dom => ({
+            checked: dom.getElementsByTagName("input")[0].checked
+              ? true
+              : false,
+          }),
         },
       ],
       toDOM: node => {
@@ -44,7 +44,7 @@ export default class CheckboxItem extends Node {
         input.type = "checkbox";
         input.addEventListener("click", this.handleChange);
         if (node.attrs.checked) {
-          input.setAttribute("checked","");
+          input.setAttribute("checked", "");
         }
 
         return [
