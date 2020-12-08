@@ -1,3 +1,5 @@
+
+import { isEqual } from "lodash";
 import Extension from "../lib/Extension";
 import { baseKeymap } from "prosemirror-commands";
 
@@ -21,7 +23,7 @@ export default class LastKeys extends Extension {
                 return path;
               }, []);
 
-              if (_.isEqual(path, ["doc", "paragraph"])) {
+              if (isEqual(path, ["doc", "paragraph"])) {
                 this.options.onSaveAndExit();
                 return true;
               }
