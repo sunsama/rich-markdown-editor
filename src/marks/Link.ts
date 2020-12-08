@@ -77,17 +77,20 @@ export default class Link extends Mark {
         return tr;
       }),
       new InputRule(URL_INPUT_REGEX, (state, match, start, end) => {
-        const [href] = match;
-        const { tr } = state;
-        if (href) {
-          tr.replaceWith(start, end, this.editor.schema.text(href)).addMark(
-            start,
-            start + href.length,
-            type.create({ href })
-          );
-        }
+        const isAlreadyLink = state.doc.rangeHasMark(start, end, type);
+        if (!isAlreadyLink) {
+            const [href] = match;
+            const { tr } = state;
+            if (href) {
+              tr.replaceWith(start, end, this.editor.schema.text(href)).addMark(
+                start,
+                start + href.length,
+                type.create({ href })
+              );
+            }
 
-        return tr;
+            return tr;
+        }
       }),
     ];
   }
