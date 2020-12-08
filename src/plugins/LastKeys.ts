@@ -29,6 +29,7 @@ export default class LastKeys extends Extension {
               }
           },
           "Mod-Enter": baseKeymap["Enter"],
+          "Shift-Enter": baseKeymap["Enter"],
         };
     } else {
         return {};
