@@ -73,6 +73,7 @@ import TemplatePlaceholder from "./marks/Placeholder";
 import BlockMenuTrigger from "./plugins/BlockMenuTrigger";
 import History from "./plugins/History";
 import Keys from "./plugins/Keys";
+import LastKeys from "./plugins/LastKeys";
 import Placeholder from "./plugins/Placeholder";
 import SmartText from "./plugins/SmartText";
 import TrailingNode from "./plugins/TrailingNode";
@@ -110,6 +111,7 @@ export type Props = {
   clipboardParser?: ProsemirrorDOMParser;
   clipboardSerializer?: DOMSerializer;
   disabledExtensions?: string[];
+  enterToSave?: boolean;
   uploadImage?: (file: File) => Promise<string>;
   onSave?: ({ done: boolean }) => void;
   onCancel?: () => void;
@@ -309,6 +311,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
           new TrailingNode(),
           new MarkdownPaste(),
           new Keys({
+            enterToSave: this.props.enterToSave,
             onSave: this.handleSave,
             onSaveAndExit: this.handleSaveAndExit,
             onCancel: this.props.onCancel,
@@ -319,6 +322,10 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
           }),
           new Placeholder({
             placeholder: this.props.placeholder,
+          }),
+          new LastKeys({
+            enterToSave: this.props.enterToSave,
+            onSaveAndExit: this.handleSaveAndExit,
           }),
         ].filter(extension => !disabledExtensions.includes(extension.name)),
         ...this.props.extensions,

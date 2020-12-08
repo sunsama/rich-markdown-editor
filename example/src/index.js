@@ -53,12 +53,17 @@ class Example extends React.Component {
     readOnly: false,
     template: false,
     disableExtensions: false,
+    enterToSave: false,
     dark: localStorage.getItem("dark") === "enabled",
     value: undefined,
   };
 
   handleToggleReadOnly = () => {
     this.setState({ readOnly: !this.state.readOnly });
+  };
+
+  handleToggleEnterToSave = () => {
+    this.setState({ enterToSave: !this.state.enterToSave });
   };
 
   handleToggleTemplate = () => {
@@ -107,6 +112,9 @@ class Example extends React.Component {
           <button type="button" onClick={this.handleToggleTemplate}>
             {this.state.template ? "Switch to Document" : "Switch to Template"}
           </button>{" "}
+          <button type="button" onClick={this.handleToggleEnterToSave}>
+            {this.state.enterToSave ? "Switch to Save on Mod-Enter" : "Switch to Save on Enter"}
+          </button>{" "}
           <button type="button" onClick={this.handleToggleDisabledExtensions}>
             {this.state.disableExtensions
               ? "Enable dividers and highlights"
@@ -120,6 +128,7 @@ class Example extends React.Component {
         <br />
         <Editor
           id="example"
+          key={this.state.enterToSave}
           readOnly={this.state.readOnly}
           readOnlyWriteCheckboxes
           value={this.state.value}
@@ -195,6 +204,7 @@ class Example extends React.Component {
               component: YoutubeEmbed,
             },
           ]}
+          enterToSave={this.state.enterToSave}
           dark={this.state.dark}
           autoFocus
         />

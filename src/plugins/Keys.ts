@@ -20,7 +20,7 @@ export default class Keys extends Extension {
               return true;
             }
 
-            if (event.key === "Enter") {
+            if (!this.options.enterToSave && event.key === "Enter") {
               event.preventDefault();
               this.options.onSaveAndExit();
               return true;
