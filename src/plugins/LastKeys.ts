@@ -1,4 +1,3 @@
-import { Plugin } from "prosemirror-state";
 import Extension from "../lib/Extension";
 import { baseKeymap } from "prosemirror-commands";
 
@@ -11,12 +10,21 @@ export default class LastKeys extends Extension {
     return -1;
   }
 
-  keys({ type }) {
+  keys() {
     if (this.options.enterToSave) {
         return {
           "Enter": (state, dispatch) => {
-              this.options.onSaveAndExit();
-              return true;
+              const path = state.doc.resolve(state.selection.from).path.reduce((path, node) => {
+                if (node.type) {
+                  path.push(node.type.name);
+                }
+                return path;
+              }, []);
+
+              if (_.isEqual(path, ["doc", "paragraph"])) {
+                this.options.onSaveAndExit();
+                return true;
+              }
           },
           "Mod-Enter": baseKeymap["Enter"],
         };
