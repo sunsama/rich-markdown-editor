@@ -1,4 +1,4 @@
-import { sortBy } from 'lodash';
+import { sortBy } from "lodash";
 import { Schema } from "prosemirror-model";
 import { keymap } from "prosemirror-keymap";
 import { MarkdownParser } from "prosemirror-markdown";
@@ -111,16 +111,24 @@ export default class ExtensionManager {
   }
 
   keymaps({ schema }: { schema: Schema }) {
-    return sortBy(this.extensions
-      .filter(extension => ["node", "mark", "extension"].includes(extension.type))
-      .filter(extension => extension.keys),
+    return sortBy(
+      this.extensions
+        .filter(extension =>
+          ["node", "mark", "extension"].includes(extension.type)
+        )
+        .filter(extension => extension.keys),
       (extension: Extension) => -extension.priority
-    ).map((extension: Extension) =>
-      extension.keys({
-        type: extension.type === "extension" ? undefined : schema[`${extension.type}s`][extension.name],
-        schema,
-      })
-    ).map((keys: Record<string, any>) => keymap(keys));
+    )
+      .map((extension: Extension) =>
+        extension.keys({
+          type:
+            extension.type === "extension"
+              ? undefined
+              : schema[`${extension.type}s`][extension.name],
+          schema,
+        })
+      )
+      .map((keys: Record<string, any>) => keymap(keys));
   }
 
   inputRules({ schema }: { schema: Schema }) {

@@ -113,7 +113,9 @@ class Example extends React.Component {
             {this.state.template ? "Switch to Document" : "Switch to Template"}
           </button>{" "}
           <button type="button" onClick={this.handleToggleEnterToSave}>
-            {this.state.enterToSave ? "Switch to Save on Mod-Enter" : "Switch to Save on Enter"}
+            {this.state.enterToSave
+              ? "Switch to Save on Mod-Enter"
+              : "Switch to Save on Enter"}
           </button>{" "}
           <button type="button" onClick={this.handleToggleDisabledExtensions}>
             {this.state.disableExtensions

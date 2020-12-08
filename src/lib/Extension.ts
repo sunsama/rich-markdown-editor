@@ -32,9 +32,9 @@ export default class Extension {
     return [];
   }
 
-    get priority() {
-        return 0;
-    }
+  get priority() {
+    return 0;
+  }
 
   keys(options) {
     return {};
