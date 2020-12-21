@@ -40,6 +40,15 @@ export default class CodeFence extends Node {
     return Object.entries(LANGUAGES);
   }
 
+  get languageOptionAliases() {
+      return {
+          js: 'javascript',
+          jsx: 'javascript',
+          ts: 'typescript',
+          tsx: 'typescript',
+      };
+  }
+
   get name() {
     return "code_fence";
   }
@@ -63,7 +72,7 @@ export default class CodeFence extends Node {
           preserveWhitespace: "full",
           getAttrs: (dom: HTMLElement) => ({
             language: dom.hasAttribute("language")
-              ? dom.getAttribute("language")
+              ? this.sanitizeLanguage(dom.getAttribute("language"))
               : "javascript",
           }),
         },
@@ -107,6 +116,13 @@ export default class CodeFence extends Node {
     return {
       "Shift-Ctrl-\\": setBlockType(type),
     };
+  }
+
+  sanitizeLanguage(language) {
+      if (LANGUAGES[language]) {
+          return language;
+      }
+      return this.languageOptionAliases[language] || 'none';
   }
 
   handleCopyToClipboard(node) {
@@ -161,7 +177,7 @@ export default class CodeFence extends Node {
   parseMarkdown() {
     return {
       block: "code_block",
-      getAttrs: tok => ({ language: tok.info }),
+      getAttrs: tok => ({ language: this.sanitizeLanguage(tok.info) }),
     };
   }
 }
