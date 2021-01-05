@@ -149,6 +149,7 @@ export class MarkdownSerializerState {
   // Render the given node as a block.
   render(node, parent, index) {
     if (typeof parent === "number") throw new Error("!");
+    if (typeof this.nodes[node.type.name] !== 'function') throw new Error(`TypeError: Unsupported node given "${node.type.name}"`);
     this.nodes[node.type.name](this, node, parent, index);
   }
 
